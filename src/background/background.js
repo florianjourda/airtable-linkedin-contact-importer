@@ -47,9 +47,12 @@ chrome.pageAction.onClicked.addListener(function(tab) {
                 'Functions': [],
 //            'Locations': [linkedInContact.location],
 //            'Industries': [linkedInContact.industry],
-                'LinkedIn Profile': linkedInContact.profileUrl,
                 'Networking Meetings': [],
-                'Picture': []
+                'LinkedIn Profile': linkedInContact.profileUrl,
+                'Picture': [{
+                    //name: linkedInContact.name,
+                    url: linkedInContact.pictureUrl
+                }]
             }
         },
         dataType: 'json',

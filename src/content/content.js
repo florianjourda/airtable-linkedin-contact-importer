@@ -23,9 +23,10 @@ function scrapDataAndSendItToBackgroundScript() {
         name: {sel: '.full-name', method: 'text'},
         title: {sel: '.title', method: 'text'},
         email: {sel: '#relationship-emails', method: 'text'},
-        profileUrl: {sel: '#relationship-public-profile-link', method: 'text'},
         location: {sel: '.locality', method: 'text'},
-        industry: {sel: '.industry', method: 'text'}
+        industry: {sel: '.industry', method: 'text'},
+        profileUrl: {sel: '#relationship-public-profile-link', method: 'text'},
+        pictureUrl: {sel: '.profile-picture img', attr: 'src'}
     });
 
     console.log('scrapedData', scrapedData);
