@@ -4,10 +4,15 @@
 //     "sample_setting": "This is how you use Store.js to remember values"
 // });
 
+// Saves data that artoo has scraped on the page
+var scrapedData;
 
-//example of using a message handler from the inject scripts
+// Example of using a message handler from the inject scripts
 chrome.extension.onMessage.addListener(
   function(request, sender, sendResponse) {
+    if (request.scrapedData) {
+        scrapedData = scrapedData;
+    }
     // Show page action icon in address bar
   	chrome.pageAction.show(sender.tab.id);
       console.log('request', request);
