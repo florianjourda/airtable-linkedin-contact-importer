@@ -35,7 +35,6 @@ chrome.pageAction.onClicked.addListener(function(tab) {
         airtableBaseURL = 'https://airtable.com/',
         airtableContactsTableBaseURL = airtableBaseURL + airtableContactsTableId + '/';
 
-
     $.ajax({
         method: 'POST',
         url: airtableContactsTableAPIUrl,
@@ -48,7 +47,7 @@ chrome.pageAction.onClicked.addListener(function(tab) {
                 'Functions': [],
 //            'Locations': [linkedInContact.location],
 //            'Industries': [linkedInContact.industry],
-                'LinkedIn Profile': 'TODO',
+                'LinkedIn Profile': linkedInContact.profileUrl,
                 'Networking Meetings': [],
                 'Picture': []
             }

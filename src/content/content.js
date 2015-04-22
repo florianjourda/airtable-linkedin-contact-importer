@@ -22,7 +22,8 @@ function scrapDataAndSendItToBackgroundScript() {
     var scrapedData = artoo.scrapeOne('#profile', {
         name: {sel: '.full-name', method: 'text'},
         title: {sel: '.title', method: 'text'},
-        email: {sel:'#relationship-emails', method: 'text'},
+        email: {sel: '#relationship-emails', method: 'text'},
+        profileUrl: {sel: '#relationship-public-profile-link', method: 'text'},
         location: {sel: '.locality', method: 'text'},
         industry: {sel: '.industry', method: 'text'}
     });
