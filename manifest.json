@@ -12,11 +12,11 @@
     "default_locale": "en",
     "background": {
         "scripts": [
-            "src/bg/background.js"
+            "src/background/background.js"
         ],
         "persistent": false
     },
-    "Xoptions_page": "src/options_custom/index.html",
+    "options_page": "src/options_custom/index.html",
     "page_action": {
         "default_icon": "icons/icon19.png",
         "default_title": "Import contact to Airtable",
@@ -33,7 +33,7 @@
             "js": [
                 "js/jquery/jquery.js",
                 "js/artoo.chrome.js",
-                "src/inject/inject.js"
+                "src/content/content.js"
             ]
         }
     ]
