@@ -15,6 +15,7 @@ chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
         chrome.pageAction.show(sender.tab.id);
         // Save to send later if the user clicks on the page action
         linkedInContact = request.scrapedData;
+        console.log('linkedInContact', linkedInContact);
         sendResponse('ok');
     } else {
         sendResponse('error');
@@ -23,28 +24,34 @@ chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
 
 // Listen to the user clicking on the page action icon in the address bar
 chrome.pageAction.onClicked.addListener(function(tab) {
-    console.log('CLICKED');
+    console.log('clicked page action');
     // Do something
+
+    var airtableTableId = 'appFkPIUEb8ApIYqf/Contacts',
+        airtableAPIKey = 'keyUSUFogZHq7YcwU';
 
     $.ajax({
         method: 'POST',
-        url: 'https://api.airtable.com/v0/appFkPIUEb8ApIYqf/Contacts',
-        headers: {'Authorization': 'Bearer keyUSUFogZHq7YcwU'},
+        url: 'https://api.airtable.com/v0/' +  airtableTableId,
+        headers: {'Authorization': 'Bearer ' + airtableAPIKey},
         data: {
-          fields: {
-            'Contact Name': linkedInContact.name,
-            'Current Job': linkedInContact.title,
-            'Functions': [],
+            fields: {
+                'Contact Name': linkedInContact.name,
+                'Current Job': linkedInContact.title,
+                'Email': linkedInContact.email,
+                'Functions': [],
 //            'Locations': [linkedInContact.location],
 //            'Industries': [linkedInContact.industry],
-            'LinkedIn Profile': 'TODO',
-            'Networking Meetings': [],
-            'Picture': []
-          }
+                'LinkedIn Profile': 'TODO',
+                'Networking Meetings': [],
+                'Picture': []
+            }
         },
         dataType: 'json',
         success: function(response) {
             console.log('success', response);
+            var recId = response.id;
+            console.log()
         },
         error: function(response) {
             console.error('error', response);
