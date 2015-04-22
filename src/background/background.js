@@ -27,12 +27,18 @@ chrome.pageAction.onClicked.addListener(function(tab) {
     console.log('clicked page action');
     // Do something
 
-    var airtableTableId = 'appFkPIUEb8ApIYqf/Contacts',
-        airtableAPIKey = 'keyUSUFogZHq7YcwU';
+    var airtableAPIBaseURL = 'https://api.airtable.com/v0/',
+        airtableDatabaseId = 'appFkPIUEb8ApIYqf',
+        airtableContactsTableId = 'tbl7TXOli08Q0UKov',
+        airtableContactsTableAPIUrl = airtableAPIBaseURL +  airtableDatabaseId + '/' + airtableContactsTableId,
+        airtableAPIKey = 'keyUSUFogZHq7YcwU',
+        airtableBaseURL = 'https://airtable.com/',
+        airtableContactsTableBaseURL = airtableBaseURL + airtableContactsTableId + '/';
+
 
     $.ajax({
         method: 'POST',
-        url: 'https://api.airtable.com/v0/' +  airtableTableId,
+        url: airtableContactsTableAPIUrl,
         headers: {'Authorization': 'Bearer ' + airtableAPIKey},
         data: {
             fields: {
@@ -50,8 +56,9 @@ chrome.pageAction.onClicked.addListener(function(tab) {
         dataType: 'json',
         success: function(response) {
             console.log('success', response);
-            var recId = response.id;
-            console.log()
+            var airtableContactId = response.id,
+                airtableContactURL = airtableContactsTableBaseURL + airtableContactId;
+            console.log('airtableContactURL', airtableContactURL);
         },
         error: function(response) {
             console.error('error', response);
