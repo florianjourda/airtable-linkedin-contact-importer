@@ -12,6 +12,7 @@
     "default_locale": "en",
     "background": {
         "scripts": [
+            "js/jquery/jquery.js",
             "src/background/background.js"
         ],
         "persistent": false
@@ -23,7 +24,8 @@
         "Xdefault_popup": "src/page_action/page_action.html"
     },
     "permissions": [
-        "contentSettings"
+        "contentSettings",
+        "https://api.airtable.com/*"
     ],
     "content_scripts": [
         {
