@@ -20,10 +20,7 @@
         "persistent": false
     },
     "options_page": "src/options_custom/index.html",
-    "page_action": {
-        "default_title": "Import contact to Airtable",
-        "Xdefault_popup": "src/page_action/page-action-popup.html"
-    },
+    "page_action": {},
     "permissions": [
         "contentSettings",
         "https://api.airtable.com/*"

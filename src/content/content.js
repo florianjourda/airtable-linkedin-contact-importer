@@ -11,7 +11,6 @@ function expandProfile(callback) {
     artoo.autoExpand({
         expand: '#contacs-tab, .relationship-contact a, .show-more-info a',
         isExpanding: function($) {
-//            return $('.relationship-progress').is(":visible");
             return $('#relationship-emails').length === 0;
         },
         limit: 1,

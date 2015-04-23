@@ -22,8 +22,10 @@ chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
         // Show page action icon in address bar
         chrome.pageAction.show(tabId);
         iconManager.setLoadingIcon(tabId, iconBackgroundImageSrc);
+        chrome.pageAction.setTitle({tabId: tabId, title: "Retrieving LinkedIn and Airtable contact record…"});
     } else if (request.status === 'scraped') {
         iconManager.setUploadIcon(tabId, iconBackgroundImageSrc);
+        chrome.pageAction.setTitle({tabId: tabId, title:"Create Airtable contact record from LinkedIn record"});
         // Save to send later if the user clicks on the page action
         linkedInContact = request.scrapedData;
         console.log('linkedInContact', linkedInContact);
@@ -42,6 +44,8 @@ chrome.pageAction.onClicked.addListener(function(tab) {
         console.log('Creating', linkedInContact);
         creatingAirtableContact = true;
         iconManager.setLoadingIcon(tabId, iconBackgroundImageSrc);
+        chrome.pageAction.setTitle({tabId: tabId, title: "Creating Airtable contact record from LinkedIn record…"});
+
         airtableAPIClient.createContact(linkedInContact, function(error, _airtableContactURL) {
             creatingAirtableContact = false;
             if (error) {
@@ -51,9 +55,11 @@ chrome.pageAction.onClicked.addListener(function(tab) {
             linkedInContactInSync = true;
             airtableContactURL = _airtableContactURL;
             iconManager.setOkIcon(tabId, iconBackgroundImageSrc);
+            chrome.pageAction.setTitle({tabId: tabId, title: "LinkedIn and Airtable contact record are in sync"});
         });
     } else if (airtableContactURL) {
-        console.log('airtableContactURL', airtableContactURL);
+        console.log('open airtableContactURL', airtableContactURL);
+        chrome.tabs.create({url: airtableContactURL});
     } else {
         console.log('Cannot create contact now');
     }
