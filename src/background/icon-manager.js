@@ -1,28 +1,62 @@
 var iconManager = {
     _animationIntervalId: null,
-
-    setLoadingIcon: function(tabId, iconBackgroundImageSrc) {
-        this._clearAnimations();
-        var rotationInDegree = 0,
-            me = this;
-        this._animationIntervalId = setInterval(function() {
-            rotationInDegree += 10;
-            me._setLoadingIconWithRotation(tabId, iconBackgroundImageSrc, rotationInDegree);
-        }, 30);
-    },
+    _uploadImageSrc: 'icons/upload-icon.svg',
+    _refreshImageSrc: 'icons/refresh-icon.svg',
+    _okImageSrc: 'icons/ok-icon.svg',
+    _loadingImageSrc: 'icons/loading-icon.svg',
 
     _clearAnimations: function() {
         clearInterval(this._animationIntervalId);
     },
 
-    _setLoadingIconWithRotation: function (tabId, iconBackgroundImageSrc, rotationInDegree) {
+    setIcon: function(tabId, backgroundImageSrc) {
+        this._clearAnimations();
+        this._setBackgroundImageAndForegroundImage(tabId, backgroundImageSrc);
+    },
+
+    setUploadIcon: function(tabId, backgroundImageSrc) {
+        this._clearAnimations();
+        this._setBackgroundImageAndForegroundImage(tabId, backgroundImageSrc, this._uploadImageSrc);
+    },
+
+    setRefreshIcon: function(tabId, backgroundImageSrc) {
+        this._clearAnimations();
+        this._setBackgroundImageAndForegroundImage(tabId, backgroundImageSrc, this._refreshImageSrc);
+    },
+
+    setOkIcon: function(tabId, backgroundImageSrc) {
+        this._clearAnimations();
+        this._setBackgroundImageAndForegroundImage(tabId, backgroundImageSrc, this._okImageSrc);
+    },
+
+    setLoadingIcon: function(tabId, backgroundImageSrc) {
+        this._clearAnimations();
+        var rotationInDegree = 0,
+            me = this;
+        this._animationIntervalId = setInterval(function() {
+            rotationInDegree += 10;
+            me._setBackgroundImageAndForegroundImage(tabId, backgroundImageSrc, me._loadingImageSrc, rotationInDegree);
+        }, 30);
+    },
+
+    _setBackgroundImageAndForegroundImage: function (tabId, backgroundImageSrc, foregroundImageSrc, foregroundImageRotationInDegree) {
+        if (!foregroundImageRotationInDegree) {
+            foregroundImageRotationInDegree = 0;
+        }
         var iconSize = 38,
-            iconCanvasContext = this._createIconCanvasContext(iconSize);
-        this._addImageAsStretchedBackground(iconCanvasContext, iconBackgroundImageSrc, function() {
-            this._addImageAtCenterWithRotation(iconCanvasContext, rotationInDegree, 'icons/loading-icon.svg', function() {
-                var iconImageData = this._getImageData(iconCanvasContext);
+            iconCanvasContext = this._createIconCanvasContext(iconSize),
+            me = this,
+            setCanvasImageAsPageActionIcon = function () {
+                var iconImageData = me._getImageData(iconCanvasContext);
                 chrome.pageAction.setIcon({tabId: tabId, imageData: {'38': iconImageData}});
-            });
+            };
+
+        this._addImageAsStretchedBackground(iconCanvasContext, backgroundImageSrc, function() {
+            if (foregroundImageSrc) {
+                this._addImageAtCenterWithRotation(iconCanvasContext, foregroundImageSrc, foregroundImageRotationInDegree, setCanvasImageAsPageActionIcon);
+            } else {
+                setCanvasImageAsPageActionIcon();
+            }
         });
     },
 
@@ -50,7 +84,7 @@ var iconManager = {
         image.src = imageSrc;
     },
 
-    _addImageAtCenterWithRotation: function(canvasContext, rotationInDegree, imageSrc, callback) {
+    _addImageAtCenterWithRotation: function (canvasContext, imageSrc, rotationInDegree, callback) {
         var image = new Image(),
             me = this;
         image.onload = function() {

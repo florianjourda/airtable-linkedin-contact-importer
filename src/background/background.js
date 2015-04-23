@@ -9,16 +9,21 @@ var iconBackgroundImageSrc = 'icons/airtable-icon-32.png';
 
 // Saves data that artoo has scraped on the page
 var tabId;
-var linkedInContact;
+var linkedInContact = null;
+var creatingAirtableContact = false;
+var linkedInContactInSync = false;
+var airtableContactURL = null;
 
 // Listen to the content script
 chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
     console.log('request', request);
     tabId = sender.tab.id;
-    if (request.status === 'scraped') {
+    if (request.status === 'loading') {
         // Show page action icon in address bar
         chrome.pageAction.show(tabId);
         iconManager.setLoadingIcon(tabId, iconBackgroundImageSrc);
+    } else if (request.status === 'scraped') {
+        iconManager.setUploadIcon(tabId, iconBackgroundImageSrc);
         // Save to send later if the user clicks on the page action
         linkedInContact = request.scrapedData;
         console.log('linkedInContact', linkedInContact);
@@ -28,48 +33,28 @@ chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
     }
   });
 
+console.log('setup clicked page action', linkedInContact);
+
 // Listen to the user clicking on the page action icon in the address bar
 chrome.pageAction.onClicked.addListener(function(tab) {
-    console.log('clicked page action');
-    // Do something
-
-    var airtableAPIBaseURL = 'https://api.airtable.com/v0/',
-        airtableDatabaseId = 'appFkPIUEb8ApIYqf',
-        airtableContactsTableId = 'tbl7TXOli08Q0UKov',
-        airtableContactsTableAPIUrl = airtableAPIBaseURL +  airtableDatabaseId + '/' + airtableContactsTableId,
-        airtableAPIKey = 'keyUSUFogZHq7YcwU',
-        airtableBaseURL = 'https://airtable.com/',
-        airtableContactsTableBaseURL = airtableBaseURL + airtableContactsTableId + '/';
-
-    $.ajax({
-        method: 'POST',
-        url: airtableContactsTableAPIUrl,
-        headers: {'Authorization': 'Bearer ' + airtableAPIKey},
-        data: {
-            fields: {
-                'Contact Name': linkedInContact.name,
-                'Current Job': linkedInContact.title,
-                'Email': linkedInContact.email,
-                'Functions': [],
-//            'Locations': [linkedInContact.location],
-//            'Industries': [linkedInContact.industry],
-                'Networking Meetings': [],
-                'LinkedIn Profile': linkedInContact.profileUrl,
-                'Picture': [{
-                    //name: linkedInContact.name,
-                    url: linkedInContact.pictureUrl
-                }]
+    var canCreateAirtableContact = linkedInContact && !linkedInContactInSync && !creatingAirtableContact;
+    if (canCreateAirtableContact) {
+        console.log('Creating', linkedInContact);
+        creatingAirtableContact = true;
+        iconManager.setLoadingIcon(tabId, iconBackgroundImageSrc);
+        airtableAPIClient.createContact(linkedInContact, function(error, _airtableContactURL) {
+            creatingAirtableContact = false;
+            if (error) {
+                console.error(error);
+                return;
             }
-        },
-        dataType: 'json',
-        success: function(response) {
-            console.log('success', response);
-            var airtableContactId = response.id,
-                airtableContactURL = airtableContactsTableBaseURL + airtableContactId;
-            console.log('airtableContactURL', airtableContactURL);
-        },
-        error: function(response) {
-            console.error('error', response);
-        }
-    });
+            linkedInContactInSync = true;
+            airtableContactURL = _airtableContactURL;
+            iconManager.setOkIcon(tabId, iconBackgroundImageSrc);
+        });
+    } else if (airtableContactURL) {
+        console.log('airtableContactURL', airtableContactURL);
+    } else {
+        console.log('Cannot create contact now');
+    }
 });

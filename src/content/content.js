@@ -1,3 +1,7 @@
+chrome.extension.sendMessage({status:'loading'}, function(response) {
+    console.log('response', response);
+});
+
 artoo.on('ready', function() {
     expandProfile(scrapDataAndSendItToBackgroundScript);
 });
