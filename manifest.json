@@ -13,6 +13,7 @@
     "background": {
         "scripts": [
             "js/jquery/jquery.js",
+            "src/options_custom/lib/store.js",
             "src/background/airtable-api-client.js",
             "src/background/icon-manager.js",
             "src/background/background.js"

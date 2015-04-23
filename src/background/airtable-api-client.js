@@ -1,8 +1,10 @@
+var settings = new Store('settings');
+
 var airtableAPIBaseURL = 'https://api.airtable.com/v0/',
-    airtableDatabaseId = 'appFkPIUEb8ApIYqf',
-    airtableContactsTableId = 'tbl7TXOli08Q0UKov',
+    airtableDatabaseId = settings.get('airtableDatabaseId'),
+    airtableContactsTableId = settings.get('airtableContactsTableId'),
     airtableContactsTableAPIUrl = airtableAPIBaseURL +  airtableDatabaseId + '/' + airtableContactsTableId,
-    airtableAPIKey = 'keyUSUFogZHq7YcwU',
+    airtableAPIKey = settings.get('airtableAPIKey'),
     airtableBaseURL = 'https://airtable.com/',
     airtableContactsTableBaseURL = airtableBaseURL + airtableContactsTableId + '/';
 
