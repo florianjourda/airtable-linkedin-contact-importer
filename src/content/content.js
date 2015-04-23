@@ -25,7 +25,7 @@ function scrapDataAndSendItToBackgroundScript() {
         email: {sel: '#relationship-emails', method: 'text'},
         location: {sel: '.locality', method: 'text'},
         industry: {sel: '.industry', method: 'text'},
-        profileUrl: {sel: '#relationship-public-profile-link', method: 'text'},
+        profileUrl: {sel: '#relationship-public-profile-link, .public-profile a', method: 'text'},
         pictureUrl: {sel: '.profile-picture img', attr: 'src'}
     });
 

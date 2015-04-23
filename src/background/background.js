@@ -4,15 +4,20 @@
 //     'sample_setting': 'This is how you use Store.js to remember values'
 // });
 
+
+
 // Saves data that artoo has scraped on the page
+var tabId;
 var linkedInContact;
 
 // Listen to the content script
 chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
     console.log('request', request);
+    tabId = sender.tab.id;
     if (request.status === 'scraped') {
         // Show page action icon in address bar
-        chrome.pageAction.show(sender.tab.id);
+        chrome.pageAction.show(tabId);
+        iconManager.setLoadingIcon(tabId);
         // Save to send later if the user clicks on the page action
         linkedInContact = request.scrapedData;
         console.log('linkedInContact', linkedInContact);

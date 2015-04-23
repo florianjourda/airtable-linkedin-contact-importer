@@ -2643,7 +2643,6 @@
   var _root = this;
 
   function _expand(params, i, c) {
-      console.log('_expand', params);
     i = i || 0;
 
     var canExpand = (params.canExpand) ?
@@ -2693,7 +2692,6 @@
 
         artoo.waitFor(
           function() {
-              console.log('isExpanding ?', isExpanding(artoo.$));
             return !isExpanding(artoo.$);
           },
           function() {

@@ -13,15 +13,17 @@
     "background": {
         "scripts": [
             "js/jquery/jquery.js",
+            "src/background/icon-manager.js",
             "src/background/background.js"
         ],
         "persistent": false
     },
     "options_page": "src/options_custom/index.html",
     "page_action": {
-        "default_icon": "icons/icon19.png",
+        "default_icon": "icons/airtable-icon-32.png",
+        "default_icon": "icons/icon16.png",
         "default_title": "Import contact to Airtable",
-        "Xdefault_popup": "src/page_action/page_action.html"
+        "default_popup": "src/page_action/page-action-popup.html"
     },
     "permissions": [
         "contentSettings",
