@@ -5,6 +5,7 @@
 // });
 
 
+var iconBackgroundImageSrc = 'icons/airtable-icon-32.png';
 
 // Saves data that artoo has scraped on the page
 var tabId;
@@ -17,7 +18,7 @@ chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
     if (request.status === 'scraped') {
         // Show page action icon in address bar
         chrome.pageAction.show(tabId);
-        iconManager.setLoadingIcon(tabId);
+        iconManager.setLoadingIcon(tabId, iconBackgroundImageSrc);
         // Save to send later if the user clicks on the page action
         linkedInContact = request.scrapedData;
         console.log('linkedInContact', linkedInContact);
