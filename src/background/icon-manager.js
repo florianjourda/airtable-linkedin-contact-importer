@@ -1,5 +1,6 @@
 var iconManager = {
     _animationIntervalId: null,
+    _settingsImageSrc: 'icons/settings-icon.svg',
     _uploadImageSrc: 'icons/upload-icon.svg',
     _refreshImageSrc: 'icons/refresh-icon.svg',
     _okImageSrc: 'icons/ok-icon.svg',
@@ -12,6 +13,11 @@ var iconManager = {
     setIcon: function(tabId, backgroundImageSrc) {
         this._clearAnimations();
         this._setBackgroundImageAndForegroundImage(tabId, backgroundImageSrc);
+    },
+
+    setSettingsIcon: function(tabId, backgroundImageSrc) {
+        this._clearAnimations();
+        this._setBackgroundImageAndForegroundImage(tabId, backgroundImageSrc, this._settingsImageSrc);
     },
 
     setUploadIcon: function(tabId, backgroundImageSrc) {

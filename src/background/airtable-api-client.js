@@ -1,14 +1,31 @@
 var settings = new Store('settings');
 
-var airtableAPIBaseURL = 'https://api.airtable.com/v0/',
-    airtableDatabaseId = settings.get('airtableDatabaseId'),
-    airtableContactsTableId = settings.get('airtableContactsTableId'),
-    airtableContactsTableAPIUrl = airtableAPIBaseURL +  airtableDatabaseId + '/' + airtableContactsTableId,
-    airtableAPIKey = settings.get('airtableAPIKey'),
-    airtableBaseURL = 'https://airtable.com/',
-    airtableContactsTableBaseURL = airtableBaseURL + airtableContactsTableId + '/';
+var airtableAPIBaseURL,
+    airtableBaseURL,
+    airtableDatabaseId,
+    airtableContactsTableId,
+    airtableContactsTableAPIUrl,
+    airtableAPIKey,
+    airtableContactsTableBaseURL;
+
 
 airtableAPIClient = {
+    loadSettings: function() {
+        airtableAPIBaseURL = 'https://api.airtable.com/v0/';
+        airtableBaseURL = 'https://airtable.com/';
+        airtableDatabaseId = settings.get('airtableDatabaseId');
+        airtableContactsTableId = settings.get('airtableContactsTableId');
+        airtableAPIKey = settings.get('airtableAPIKey');
+        airtableContactsTableAPIUrl = airtableAPIBaseURL +  airtableDatabaseId + '/' + airtableContactsTableId;
+        airtableContactsTableBaseURL = airtableBaseURL + airtableContactsTableId + '/';
+        return this._areSettingsCorrectlyLoaded();
+    },
+
+    _areSettingsCorrectlyLoaded: function() {
+        console.log(airtableDatabaseId, airtableContactsTableId, airtableAPIKey);
+        return airtableDatabaseId !== '' && airtableContactsTableId !== '' && airtableAPIKey !== '';
+    },
+
     createContact: function(linkedInContact, callback) {
         $.ajax({
             method: 'POST',
