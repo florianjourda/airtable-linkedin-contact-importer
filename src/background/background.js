@@ -22,10 +22,10 @@ chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
         // Show page action icon in address bar
         chrome.pageAction.show(tabId);
         iconManager.setLoadingIcon(tabId, iconBackgroundImageSrc);
-        chrome.pageAction.setTitle({tabId: tabId, title: "Retrieving LinkedIn and Airtable contact record…"});
+        chrome.pageAction.setTitle({tabId: tabId, title: "Retrieving LinkedIn and Airtable contact records…"});
     } else if (request.status === 'scraped') {
         iconManager.setUploadIcon(tabId, iconBackgroundImageSrc);
-        chrome.pageAction.setTitle({tabId: tabId, title:"Create Airtable contact record from LinkedIn record"});
+        chrome.pageAction.setTitle({tabId: tabId, title:"Import LinkedIn contact to Airtable"});
         // Save to send later if the user clicks on the page action
         linkedInContact = request.scrapedData;
         console.log('linkedInContact', linkedInContact);
@@ -44,7 +44,7 @@ chrome.pageAction.onClicked.addListener(function(tab) {
         console.log('Creating', linkedInContact);
         creatingAirtableContact = true;
         iconManager.setLoadingIcon(tabId, iconBackgroundImageSrc);
-        chrome.pageAction.setTitle({tabId: tabId, title: "Creating Airtable contact record from LinkedIn record…"});
+        chrome.pageAction.setTitle({tabId: tabId, title: "Importing LinkedIn contact to Airtable…"});
 
         airtableAPIClient.createContact(linkedInContact, function(error, _airtableContactURL) {
             creatingAirtableContact = false;
@@ -55,7 +55,7 @@ chrome.pageAction.onClicked.addListener(function(tab) {
             linkedInContactInSync = true;
             airtableContactURL = _airtableContactURL;
             iconManager.setOkIcon(tabId, iconBackgroundImageSrc);
-            chrome.pageAction.setTitle({tabId: tabId, title: "LinkedIn and Airtable contact record are in sync"});
+            chrome.pageAction.setTitle({tabId: tabId, title: "LinkedIn contact was successfully imported to Airtable"});
         });
     } else if (airtableContactURL) {
         console.log('open airtableContactURL', airtableContactURL);
