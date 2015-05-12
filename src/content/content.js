@@ -3,8 +3,25 @@ chrome.extension.sendMessage({status:'loading'}, function(response) {
 });
 
 artoo.on('ready', function() {
-    expandProfile(scrapDataAndSendItToBackgroundScript);
+    // Need to add as contact before to be able to expand the profile correctly
+    addAsContact(function() {
+        expandProfile(scrapDataAndSendItToBackgroundScript);
+    });
 });
+
+function addAsContact(callback) {
+    console.log('addAsContact');
+    artoo.autoExpand({
+        expand: '.save-to-contacts a',
+        isExpanding: function($) {
+            return $('#relationship-container').length === 0;
+        },
+        limit: 1,
+        timeout: 3000,
+        done: callback
+    });
+}
+
 
 function expandProfile(callback) {
     console.log('expandProfile');

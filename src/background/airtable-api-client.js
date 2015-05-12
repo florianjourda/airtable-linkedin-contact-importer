@@ -42,8 +42,8 @@ airtableAPIClient = {
                     'Networking Meetings': [],
                     'LinkedIn Profile': linkedInContact.profileUrl,
                     'Picture': [{
-                        //name: linkedInContact.name,
-                        url: linkedInContact.pictureUrl
+                        url: linkedInContact.pictureUrl,
+                        filename: linkedInContact.name
                     }]
                 }
             },
