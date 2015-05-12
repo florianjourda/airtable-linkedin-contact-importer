@@ -22,7 +22,6 @@ function addAsContact(callback) {
     });
 }
 
-
 function expandProfile(callback) {
     console.log('expandProfile');
     artoo.autoExpand({
@@ -39,20 +38,26 @@ function expandProfile(callback) {
 function scrapDataAndSendItToBackgroundScript() {
     console.log('scrapDataAndSendItToBackgroundScript');
 
-    var scrapedData = artoo.scrapeOne('#profile', {
+    var scrapedData = artoo.scrapeOne('#wrapper', {
         name: {sel: '.full-name', method: 'text'},
-        title: {sel: '.title', method: 'text'},
+        title: {sel: '#headline .title', method: 'text'},
         email: {sel: '#relationship-emails', method: 'text'},
-        location: {sel: '.locality', method: 'text'},
-        industry: {sel: '.industry', method: 'text'},
+        location: {sel: '#location .locality', method: 'text'},
+        industry: {sel: '#location .industry', method: 'text'},
         profileUrl: {sel: '#relationship-public-profile-link, .public-profile a', method: 'text'},
         pictureUrl: {sel: '.profile-picture img', attr: 'src'}
     });
 
     console.log('scrapedData', scrapedData);
-    chrome.extension.sendMessage({status:'scraped', scrapedData: scrapedData}, function(response) {
-        console.log('response', response);
-    });
+    if (scrapedData.name === "" || scrapedData.pictureUrl === null) {
+        chrome.extension.sendMessage({status:'scraping_error', scrapedData: scrapedData}, function(response) {
+            console.log('response', response);
+        });
+    } else {
+        chrome.extension.sendMessage({status:'scraping_success', scrapedData: scrapedData}, function(response) {
+            console.log('response', response);
+        });
+    }
 }
 
 

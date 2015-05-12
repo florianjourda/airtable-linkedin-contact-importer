@@ -3,7 +3,8 @@ var iconManager = {
     _settingsImageSrc: 'icons/settings-icon.svg',
     _uploadImageSrc: 'icons/upload-icon.svg',
     _refreshImageSrc: 'icons/refresh-icon.svg',
-    _okImageSrc: 'icons/ok-icon.svg',
+    _successImageSrc: 'icons/success-icon.svg',
+    _errorImageSrc: 'icons/error-icon.svg',
     _loadingImageSrc: 'icons/loading-icon.svg',
 
     _clearAnimations: function() {
@@ -30,9 +31,14 @@ var iconManager = {
         this._setBackgroundImageAndForegroundImage(tabId, backgroundImageSrc, this._refreshImageSrc);
     },
 
-    setOkIcon: function(tabId, backgroundImageSrc) {
+    setSuccessIcon: function(tabId, backgroundImageSrc) {
         this._clearAnimations();
-        this._setBackgroundImageAndForegroundImage(tabId, backgroundImageSrc, this._okImageSrc);
+        this._setBackgroundImageAndForegroundImage(tabId, backgroundImageSrc, this._successImageSrc);
+    },
+
+    setErrorIcon: function(tabId, backgroundImageSrc) {
+        this._clearAnimations();
+        this._setBackgroundImageAndForegroundImage(tabId, backgroundImageSrc, this._errorImageSrc);
     },
 
     setLoadingIcon: function(tabId, backgroundImageSrc) {

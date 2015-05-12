@@ -26,13 +26,17 @@ chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
         chrome.pageAction.show(tabId);
         iconManager.setLoadingIcon(tabId, iconBackgroundImageSrc);
         chrome.pageAction.setTitle({tabId: tabId, title: 'Retrieving LinkedIn and Airtable contact records…'});
-    } else if (request.status === 'scraped') {
+    } else if (request.status === 'scraping_success') {
         iconManager.setUploadIcon(tabId, iconBackgroundImageSrc);
         chrome.pageAction.setTitle({tabId: tabId, title:'Import LinkedIn contact to Airtable'});
         // Save to send later if the user clicks on the page action
         linkedInContact = request.scrapedData;
         console.log('linkedInContact', linkedInContact);
-        sendResponse('ok');
+        sendResponse('success');
+    } else if (request.status === 'scraping_error') {
+        iconManager.setErrorIcon(tabId, iconBackgroundImageSrc);
+        chrome.pageAction.setTitle({tabId: tabId, title:'Error during scraping'});
+        sendResponse('success');
     } else {
         sendResponse('error');
     }
@@ -62,7 +66,7 @@ chrome.pageAction.onClicked.addListener(function(tab) {
             }
             linkedInContactInSync = true;
             airtableContactURL = _airtableContactURL;
-            iconManager.setOkIcon(tabId, iconBackgroundImageSrc);
+            iconManager.setSuccessIcon(tabId, iconBackgroundImageSrc);
             chrome.pageAction.setTitle({tabId: tabId, title: 'LinkedIn contact was successfully imported to Airtable'});
         });
     } else if (airtableContactURL) {
