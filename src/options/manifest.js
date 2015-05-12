@@ -5,7 +5,7 @@ this.manifest = {
     "settings": [
         {
             "tab": i18n.get("Airtable Configuration"),
-            "group": i18n.get("Contacts Table"),
+            "group": i18n.get("API Parameters"),
             "name": "airtableDatabaseId",
             "type": "text",
             "label": i18n.get("Database Id"),
@@ -13,7 +13,7 @@ this.manifest = {
         },
         {
             "tab": i18n.get("Airtable Configuration"),
-            "group": i18n.get("Contacts Table"),
+            "group": i18n.get("API Parameters"),
             "name": "airtableContactsTableId",
             "type": "text",
             "label": i18n.get("Contacts Table Id"),
@@ -21,7 +21,15 @@ this.manifest = {
         },
         {
             "tab": i18n.get("Airtable Configuration"),
-            "group": i18n.get("Contacts Table"),
+            "group": i18n.get("API Parameters"),
+            "name": "airtableLocationsTableId",
+            "type": "text",
+            "label": i18n.get("Locations Table Id"),
+            "text": i18n.get("tbl3aNOlba453IRo1")
+        },
+        {
+            "tab": i18n.get("Airtable Configuration"),
+            "group": i18n.get("API Parameters"),
             "name": "airtableAPIKey",
             "type": "text",
             "label": i18n.get("API Key"),
