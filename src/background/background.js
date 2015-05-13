@@ -17,29 +17,45 @@ chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
         return;
     }
 
-    if (!(tabId in stateByTabId)) {
-        // Saves data that artoo has scraped on the page
-        stateByTabId[tabId] = {
-            linkedInContact: null,
-            creatingAirtableContact: false,
-            linkedInContactInSync: false,
-            airtableContactURL: null
-        };
-    }
-    var stateOfTab = stateByTabId[tabId];
-
     if (request.status === 'loading') {
         // Show page action icon in address bar
         chrome.pageAction.show(tabId);
         iconManager.setLoadingIcon(tabId, iconBackgroundImageSrc);
         chrome.pageAction.setTitle({tabId: tabId, title: 'Retrieving LinkedIn and Airtable contact records…'});
+
+        // Init state of tab
+        stateByTabId[tabId] = {
+            // Saves data that artoo has scraped on the page
+            linkedInContact: null,
+            creatingAirtableContact: false,
+            linkedInContactInSync: false,
+            airtableContactURL: null
+        };
     } else if (request.status === 'scraping_success') {
-        iconManager.setUploadIcon(tabId, iconBackgroundImageSrc);
-        chrome.pageAction.setTitle({tabId: tabId, title:'Import LinkedIn contact to Airtable'});
+        var stateOfTab = stateByTabId[tabId];
         // Save to send later if the user clicks on the page action
         stateOfTab.linkedInContact = request.scrapedData;
         console.log('linkedInContact', stateOfTab.linkedInContact);
-        sendResponse('success');
+        airtableAPIClient.getContacts(function(error, contacts) {
+            if (error) {
+                console.error(error);
+                iconManager.setErrorIcon(tabId, iconBackgroundImageSrc);
+                chrome.pageAction.setTitle({tabId: tabId, title:'Error during contacts loading'});
+                sendResponse('error');
+                return;
+            }
+            var contactId = airtableAPIClient.getContactRecordIdByName(stateOfTab.linkedInContact.name, contacts);
+            if (contactId) {
+                iconManager.setSuccessIcon(tabId, iconBackgroundImageSrc);
+                chrome.pageAction.setTitle({tabId: tabId, title: 'LinkedIn contact is already on Airtable'});
+                stateOfTab.linkedInContactInSync = true;
+                stateOfTab.airtableContactURL = airtableAPIClient.getContactURL(contactId);
+            } else {
+                iconManager.setUploadIcon(tabId, iconBackgroundImageSrc);
+                chrome.pageAction.setTitle({tabId: tabId, title:'Import LinkedIn contact to Airtable'});
+            }
+            sendResponse('success');
+        });
     } else if (request.status === 'scraping_error') {
         iconManager.setErrorIcon(tabId, iconBackgroundImageSrc);
         chrome.pageAction.setTitle({tabId: tabId, title:'Error during scraping'});

@@ -58,11 +58,41 @@ airtableAPIClient = {
         });
     },
 
-    _getLocationRecordIdByName: function(locationRecordName, locationRecords) {
+    getLocationRecordIdByName: function(locationRecordName, locationRecords) {
         for (var i = 0; i < locationRecords.length; i++) {
             var locationRecord = locationRecords[i];
             if (locationRecord.fields.Name === locationRecordName) {
                 return locationRecord.id;
+            }
+        }
+        return null;
+    },
+
+    getContacts: function(callback) {
+        $.ajax({
+            method: 'GET',
+            url: airtableContactsTableAPIUrl,
+            headers: {'Authorization': 'Bearer ' + airtableAPIKey},
+            data: {
+                view: 'Main View'
+            },
+            dataType: 'json',
+            success: function(response) {
+                console.log('success', response);
+                callback(null, response.records);
+            },
+            error: function(response) {
+                console.error('error', response);
+                callback(response);
+            }
+        });
+    },
+
+    getContactRecordIdByName: function(contactRecordName, contactRecords) {
+        for (var i = 0; i < contactRecords.length; i++) {
+            var contactRecord = contactRecords[i];
+            if (contactRecord.fields['Contact Name'] === contactRecordName) {
+                return contactRecord.id;
             }
         }
         return null;
@@ -76,7 +106,7 @@ airtableAPIClient = {
                 return;
             }
             console.log('locations', locations);
-            var locationId = me._getLocationRecordIdByName(linkedInContact.location, locations);
+            var locationId = me.getLocationRecordIdByName(linkedInContact.location, locations);
             $.ajax({
                 method: 'POST',
                 url: airtableContactsTableAPIUrl,
@@ -101,7 +131,7 @@ airtableAPIClient = {
                 success: function(response) {
                     console.log('success', response);
                     var airtableContactId = response.id,
-                        airtableContactURL = airtableContactsTableBaseURL + airtableContactId;
+                        airtableContactURL = me.getContactURL(airtableContactId);
                     console.log('airtableContactURL', airtableContactURL);
                     callback(null, airtableContactURL);
                 },
@@ -111,5 +141,10 @@ airtableAPIClient = {
                 }
             });
         });
+    },
+
+    getContactURL: function(contactId) {
+        var airtableContactURL = airtableContactsTableBaseURL + contactId;
+        return airtableContactURL;
     }
 };
