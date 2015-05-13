@@ -87,7 +87,7 @@ airtableAPIClient = {
                         'Current Job': linkedInContact.title,
                         'Email': linkedInContact.email,
                         'Functions': [],
-                        'Locations': [locationId],
+                        'Locations': locationId !== null ? [locationId] : [],
 //                      'Industries': [linkedInContact.industry],
                         'Networking Meetings': [],
                         'LinkedIn Profile': linkedInContact.profileUrl,
