@@ -1,9 +1,17 @@
+/**
+ * @fileoverview This is the code that will run in the context of the content of a page
+ * and can interact with the DOM.
+ *
+ * In manifest.json, we declare that we want this code to run only on the pages matching "https://www.linkedin.com/*"
+ */
+
+// Tell the background script that this tab is loading and will start scraping
 chrome.extension.sendMessage({status:'loading'}, function(response) {
     console.log('response', response);
 });
 
 artoo.on('ready', function() {
-    // Need to add as contact before to be able to expand the profile correctly
+    // Add as contact before to be able to expand the profile correctly
     addAsContact(function() {
         expandProfile(scrapDataAndSendItToBackgroundScript);
     });
@@ -59,5 +67,3 @@ function scrapDataAndSendItToBackgroundScript() {
         });
     }
 }
-
-

@@ -117,8 +117,11 @@ airtableAPIClient = {
                         'Current Job': linkedInContact.title,
                         'Email': linkedInContact.email,
                         'Functions': [],
+                        // @TODO(florian): Would be great that Airtable API allows to simple give a Location Name
+                        // instead of a Location Id, with some flags allowing to create a new Location record
+                        // if none is found in the Location table with the given name
                         'Locations': locationId !== null ? [locationId] : [],
-//                      'Industries': [linkedInContact.industry],
+                        //'Industries': [linkedInContact.industry],
                         'Networking Meetings': [],
                         'LinkedIn Profile': linkedInContact.profileUrl,
                         'Picture': [{

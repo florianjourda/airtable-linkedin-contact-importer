@@ -1,18 +1,18 @@
 {
-    "name": "Airtable Contact Importer",
+    "name": "Airtable LinkedIn Contact Importer",
     "version": "0.0.1",
     "manifest_version": 2,
     "description": "Copy the main information of the current LinkedIn profile to a table in Airtable",
     "homepage_url": "http://airtable.com",
     "icons": {
-        "16": "icons/icon16.png",
-        "48": "icons/icon48.png",
-        "128": "icons/icon128.png"
+        "16": "icons/airtable-icon-16.png",
+        "48": "icons/airtable-icon-48.png",
+        "128": "icons/airtable-icon-128.png"
     },
     "default_locale": "en",
     "background": {
         "scripts": [
-            "js/jquery/jquery.js",
+            "lib/jquery/jquery.js",
             "src/options/lib/store.js",
             "src/background/airtable-api-client.js",
             "src/background/icon-manager.js",
@@ -32,8 +32,8 @@
                 "https://www.linkedin.com/*"
             ],
             "js": [
-                "js/jquery/jquery.js",
-                "js/artoo.chrome.js",
+                "lib/jquery/jquery.js",
+                "lib/artoo.chrome.js",
                 "src/content/content.js"
             ]
         }

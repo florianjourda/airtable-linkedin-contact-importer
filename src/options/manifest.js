@@ -9,7 +9,7 @@ this.manifest = {
             "name": "airtableDatabaseId",
             "type": "text",
             "label": i18n.get("Database Id"),
-            "text": i18n.get("appGkPIUFb9ZpIYqg")
+            "text": i18n.get("appGkPIUFb9ZpIYqg") // fake example
         },
         {
             "tab": i18n.get("Airtable Configuration"),
@@ -17,7 +17,7 @@ this.manifest = {
             "name": "airtableContactsTableId",
             "type": "text",
             "label": i18n.get("Contacts Table Id"),
-            "text": i18n.get("tbl8TXOla09Q0IKoz")
+            "text": i18n.get("tbl8TXOla09Q0IKoz") // fake example
         },
         {
             "tab": i18n.get("Airtable Configuration"),
@@ -25,7 +25,7 @@ this.manifest = {
             "name": "airtableLocationsTableId",
             "type": "text",
             "label": i18n.get("Locations Table Id"),
-            "text": i18n.get("tbl3aNOlba453IRo1")
+            "text": i18n.get("tbl3aNOlba453IRo1") // fake example
         },
         {
             "tab": i18n.get("Airtable Configuration"),
@@ -33,7 +33,7 @@ this.manifest = {
             "name": "airtableAPIKey",
             "type": "text",
             "label": i18n.get("API Key"),
-            "text": i18n.get("keyVSUFhgZ5q9YcwK")
+            "text": i18n.get("keyVSUFhgZ5q9YcwK") // fake example
         }
     ],
     "alignment": [
