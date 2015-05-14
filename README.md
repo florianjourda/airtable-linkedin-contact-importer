@@ -13,5 +13,8 @@ To load the extension:
 * git clone this code on your computer
 * Click 'Load unpacked...' and pick the cloned directory
 
-Chrome Extension code structure created with [Extensionizr](http://extensionizr.com).
-GIF created with [LiceCap](http://www.cockos.com/licecap/).
+Credits:
+* Chrome Extension code structure created with [Extensionizr](http://extensionizr.com).
+* Scraping done with [Artoo](https://medialab.github.io/artoo)
+* GIF created with [LiceCap](http://www.cockos.com/licecap/).
+
